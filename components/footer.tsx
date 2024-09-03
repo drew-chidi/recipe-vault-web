@@ -1,15 +1,11 @@
-import React from 'react';
-import { Button } from './ui/button';
-import Icon from './icon/icon';
-import Link from 'next/link';
+import React from 'react'
+import { Button } from './ui/button'
+import Icon from './icon/icon'
+import Link from 'next/link'
 
-type Props = {};
+type Props = {}
 
-const socials = [
-  { name: 'facebook-logo' },
-  { name: 'instagram-logo' },
-  { name: 'pinterest' },
-];
+const socials = [{ name: 'facebook-logo' }, { name: 'instagram-logo' }, { name: 'pinterest' }]
 
 const Footer = (props: Props) => {
   return (
@@ -17,7 +13,7 @@ const Footer = (props: Props) => {
       <div className='py-10  px-5 md:px-8 lg:px-10 flex flex-col gap-8 md:flex-row md:justify-between max-w-[56.25rem] mx-auto'>
         <div className='flex flex-col gap-6 items-center md:items-start'>
           <p className='text-lg font-semibold'>Recipe Vault</p>
-          <Button variant='outline' className='uppercase w-full font-medium'>
+          <Button variant='outline' className='uppercase w-full font-medium bg-transparent'>
             Newsletters
           </Button>
           <div>
@@ -48,7 +44,7 @@ const Footer = (props: Props) => {
       </div>
       <div>
         <hr className='my-5 w-3/4 mx-auto max-w-3xl border-border bg-border' />
-        <div className='text-sm text-gray-600 text-center'>
+        <div className='text-sm text-gray-600 text-center pb-14'>
           &copy; 2021-present. Recipe App. All rights reserved.
           <br />
           <Link href='#' className='text-blue-500 hover:underline'>
@@ -57,7 +53,7 @@ const Footer = (props: Props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

@@ -24,8 +24,7 @@ export const fetchRecipeById = async (id: string) => {
 export const createRecipe = async (recipe: FormData) => {
   const response = await fetch(`${API_BASE_URL}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(recipe),
+    body: recipe,
   })
   if (!response.ok) {
     throw new Error('Network response was not ok')

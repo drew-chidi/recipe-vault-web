@@ -28,10 +28,10 @@ export const useCreateRecipe = () => {
   })
 }
 
-export const useUpdateRecipe = (id: string, recipe: RecipeType) => {
+export const useUpdateRecipe = () => {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: () => updateRecipe(id, recipe),
+    mutationFn: ({ id, recipe }: { id: string; recipe: RecipeType }) => updateRecipe(id, recipe),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['recipes'] })
     },

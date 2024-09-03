@@ -1,30 +1,23 @@
-import { RecipeType } from '@/types/recipe.type';
-import Image from 'next/image';
-import React from 'react';
+import { RecipeType } from '@/types/recipe.type'
+import Image from 'next/image'
+import React from 'react'
 
 type Props = {
-  recipe: RecipeType;
-};
+  recipe: RecipeType
+}
 
 const RecipeCard = ({ recipe }: Props) => {
   return (
-    <div key={recipe._id} className='flex items-start'>
-      <div className='basis-1/2'>
-        <Image
-          src={recipe.image}
-          alt={recipe.title}
-          width={160}
-          height={100}
-          className='object-contain'
-        />
+    <div key={recipe._id} className='flex items-start md:flex-col gap-5 md:gap-0 '>
+      <div className='relative w-[10rem] h-[6.875rem] md:w-full md:h-[12.5rem]'>
+        <Image src={recipe.image} alt={recipe.title} fill className='object-cover' />
       </div>
-      <div className='basis-1/2'>
+      <div className='md:p-3'>
         <h2 className='text-lg font-bold'>{recipe.title}</h2>
-        {/* <p className='text-sm text-gray-500'>By {recipe.author}</p> */}
         <p className='text-sm'>{recipe.instructions}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RecipeCard;
+export default RecipeCard

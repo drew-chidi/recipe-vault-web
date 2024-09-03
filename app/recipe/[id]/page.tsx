@@ -1,37 +1,60 @@
-'use client';
+'use client'
 
-import ConfirmationModal from '@/components/modals/confirmation-modal';
-import { Button } from '@/components/ui/button';
-import { useDeleteRecipe, useGetRecipeById } from '@/hooks/useRecipes';
-import { DeleteIcon, Edit2Icon, EditIcon } from 'lucide-react';
-import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import Image from 'next/image'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { DeleteIcon, Edit2Icon } from 'lucide-react'
+import { useFormik } from 'formik'
+
+import ConfirmationModal from '@/components/modals/confirmation-modal'
+import EditRecipeModal from '@/components/modals/edit-recipe-modal'
+import { Button } from '@/components/ui/button'
+import { useDeleteRecipe, useGetRecipeById, useUpdateRecipe } from '@/hooks/useRecipes'
+import { CreateRecipeSchema } from '@/utils/schema/create-recipe.schema'
+
+type FormValues = {
+  title: string
+  ingredients: string[]
+  instructions: string
+  image: File | null | string
+}
 
 export default function RecipeDetails() {
-  const [showConfirmation, setShowConfirmation] = useState(false);
-  const params = useParams();
-  const router = useRouter();
-  const id = params.id as string;
-  console.log({ params });
-  const { data: recipe, error, isLoading } = useGetRecipeById(id);
-  const {
-    mutate: deleteRecipe,
-    status,
-    isError,
-    isSuccess,
-    error: errorDeleting,
-  } = useDeleteRecipe();
+  const [showConfirmation, setShowConfirmation] = useState(false)
+  const [showUpdateForm, setShowUpdateForm] = useState(false)
+
+  const params = useParams()
+  const router = useRouter()
+  const id = params.id as string
+
+  const { data: recipe, error, isLoading } = useGetRecipeById(id)
+  const { mutate: deleteRecipe, status, isError, isSuccess, error: errorDeleting } = useDeleteRecipe()
+  const { mutate: updateRecipe, status: updateStatus, isError: isErrorUpdating, isSuccess: successUpdating, error: errorUpdating } = useUpdateRecipe()
 
   const handleDelete = () => {
-    deleteRecipe(id);
-  };
+    deleteRecipe(id)
+  }
+  const handleUpdate = () => {
+    const updatedRecipe = {}
+    updateRecipe({ id, recipe: updatedRecipe })
+  }
 
   useEffect(() => {
-    if (isSuccess) router.push('/');
-  }, [isSuccess]);
+    if (isSuccess) router.push('/')
+  }, [isSuccess])
 
-  console.log({ recipe });
+  const formik = useFormik<FormValues>({
+    initialValues: {
+      title: recipe?.data?.title ?? '',
+      ingredients: recipe?.data?.ingredients ?? [],
+      image: recipe?.data?.image ?? null,
+      instructions: recipe?.data?.instructions ?? '',
+    },
+    validationSchema: CreateRecipeSchema,
+    onSubmit: handleUpdate,
+  })
+
+  console.log({ recipe })
   return (
     <div className='bg-gray-100 min-h-screen max-w-[37.5rem]'>
       <div className='container mx-auto py-6'>
@@ -52,14 +75,10 @@ export default function RecipeDetails() {
         <h2 className='text-2xl font-semibold mb-2'>Instructions</h2>
         <p>{recipe?.data?.instructions}</p>
         <div className='flex gap-3 items-center justify-end'>
-          <Button variant='outline' className='inline-flex items-center gap-2'>
+          <Button variant='outline' className='inline-flex items-center gap-2' onClick={() => setShowUpdateForm(true)}>
             <Edit2Icon /> Edit
           </Button>
-          <Button
-            variant='destructive'
-            className='inline-flex items-center gap-2'
-            onClick={() => setShowConfirmation(true)}
-          >
+          <Button variant='destructive' className='inline-flex items-center gap-2' onClick={() => setShowConfirmation(true)}>
             <DeleteIcon /> Delete
           </Button>
         </div>
@@ -68,10 +87,19 @@ export default function RecipeDetails() {
         loading={status === 'pending'}
         visible={showConfirmation}
         onClose={() => {
-          setShowConfirmation(false);
+          setShowConfirmation(false)
         }}
         onConfirm={handleDelete}
       />
+      <EditRecipeModal
+        formik={formik}
+        loading={status === 'pending'}
+        visible={showUpdateForm}
+        onClose={() => {
+          setShowUpdateForm(false)
+        }}
+        onConfirm={handleUpdate}
+      />
     </div>
-  );
+  )
 }
