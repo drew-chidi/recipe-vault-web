@@ -2,16 +2,13 @@ import { RecipeType } from '@/types/recipe.type';
 import Image from 'next/image';
 import React from 'react';
 
-// To-do:
-// 1. Take types to a seperate file
-
 type Props = {
   recipe: RecipeType;
 };
 
 const RecipeCard = ({ recipe }: Props) => {
   return (
-    <div key={recipe.id} className='flex items-start'>
+    <div key={recipe._id} className='flex items-start'>
       <div className='basis-1/2'>
         <Image
           src={recipe.image}

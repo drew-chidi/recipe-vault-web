@@ -1,13 +1,14 @@
 'use client';
 
+import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Icon from '@/components/icon/icon';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CreateRecipeSchema } from '@/utils/schema/create-recipe.schema';
-import { FieldArray, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { PlusCircleIcon } from 'lucide-react';
-import { useState } from 'react';
-import ReactQuill from 'react-quill';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
 
 type FormValues = {

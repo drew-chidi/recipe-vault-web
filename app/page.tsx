@@ -5,8 +5,6 @@
 
 import { CustomPagination } from '@/components/pagination';
 import RecipeCard from '@/components/recipe-card';
-import RecipeCategories from '@/components/recipe-categories';
-import RecipeList from '@/components/recipe-list';
 import { useGetRecipes } from '@/hooks/useRecipes';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -42,9 +40,6 @@ export default function Home() {
             alt='banner'
           />
         </div>
-        {/* <div className='mt-10 border-b-[0.75rem] border-b-zinc-200'>
-          <RecipeCategories />
-        </div> */}
         <h2 className='capitalize text-2xl mt-10 font-medium mb-8'>
           Explore our recipes
         </h2>
