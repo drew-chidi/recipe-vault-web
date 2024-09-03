@@ -110,7 +110,7 @@ export default function CreateRecipe() {
                   }
                   onBlur={formik.handleBlur}
                   error={formik.errors.ingredients?.[index]}
-                  touched={formik.touched.ingredients?.[index]}
+                  // touched={formik.touched.ingredients?.[index]}
                   placeholder='Enter ingredient'
                 />
                 <button
