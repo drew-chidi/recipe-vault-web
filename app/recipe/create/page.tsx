@@ -10,6 +10,7 @@ import { useFormik } from 'formik';
 import { PlusCircleIcon } from 'lucide-react';
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import 'react-quill/dist/quill.snow.css';
+import { useCreateRecipe } from '@/hooks/useRecipes';
 
 type FormValues = {
   title: string;
@@ -20,6 +21,13 @@ type FormValues = {
 
 export default function CreateRecipe() {
   const [ingredients, setIngredients] = useState<string[]>(['']);
+  const {
+    mutate: createRecipe,
+    status,
+    isError,
+    isSuccess,
+    error: errorDeleting,
+  } = useCreateRecipe();
 
   const handleIngredientChange = (index: number, value: string) => {
     const newIngredients = [...ingredients];
@@ -65,6 +73,10 @@ export default function CreateRecipe() {
         formData.append(key, value as string);
       }
     });
+
+    console.log({ formData });
+
+    createRecipe(formData);
   };
 
   const formik = useFormik<FormValues>({
@@ -84,7 +96,7 @@ export default function CreateRecipe() {
         <h1 className='text-4xl font-bold text-indigo-900 mb-6'>
           Create New Recipe
         </h1>
-        <form onSubmit={handleSubmit} className='space-y-4'>
+        <form onSubmit={formik.handleSubmit} className='space-y-4'>
           <div>
             <Input
               label='Title'
@@ -142,8 +154,10 @@ export default function CreateRecipe() {
               </label>
               <ReactQuill
                 theme='snow'
-                // value={instructions}
-                // onChange={(value) => setInstructions(value)}
+                value={formik?.values?.instructions}
+                onChange={(value) =>
+                  formik.setFieldValue('instructions', value)
+                }
                 className='my-2 h-full'
               />
             </div>

@@ -24,10 +24,10 @@ export const useGetRecipeById = (id: string) => {
   });
 };
 
-export const useCreateRecipe = (recipe: RecipeType) => {
+export const useCreateRecipe = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: createRecipe,
+    mutationFn: (recipe: FormData) => createRecipe(recipe),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['recipes'] });
     },

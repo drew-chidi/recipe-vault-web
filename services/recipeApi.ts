@@ -21,7 +21,7 @@ export const fetchRecipeById = async (id: string) => {
   return response.json();
 };
 
-export const createRecipe = async (recipe: RecipeType) => {
+export const createRecipe = async (recipe: FormData) => {
   const response = await fetch(`${API_BASE_URL}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

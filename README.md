@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Recipe Vault
+
+**Recipe Vault** is a web application designed to help users discover, create, and share recipes. The app offers a clean and intuitive interface for browsing recipes, reading detailed instructions, and accessing a variety of culinary resources.
+
+## Table of Contents
+
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the App](#running-the-app)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Technologies Used](#technologies-used)
+- [License](#license)
+- [Contact](#contact)
+
+## Features
+
+- **Recipe Listings**: Browse through a wide selection of recipes, categorized by cuisine, meal type, and dietary restrictions.
+- **Recipe Details**: View detailed recipes with ingredients, instructions, and cooking times.
+- **Pagination**: Navigate through recipe lists with paginated views for improved user experience.
+- **User Interaction**: Like and save your favorite recipes to your profile.
+- **Search Functionality**: Easily find recipes using the search bar.
+- **Responsive Design**: Fully responsive design that works seamlessly across desktop, tablet, and mobile devices.
+- **Footer with Terms and Conditions**: A clean footer with a link to the app's terms and conditions.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Ensure you have the following installed:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Node.js](https://nodejs.org/en/) (version 14 or higher)
+- [npm](https://www.npmjs.com/get-npm) or [Yarn](https://yarnpkg.com/)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. Clone the repository:
 
-## Learn More
+   ```bash
+   git clone https://github.com/yourusername/recipe-vault.git
 
-To learn more about Next.js, take a look at the following resources:
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Navigate to the project directory:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   ```bash
+   cd recipe-vault
 
-## Deploy on Vercel
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Install the dependencies:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```bash
+   npm install
+   ```
+
+### Running the App
+
+1. Start the development server:
+
+   ```bash
+   npm run dev
+
+   ```
+
+2. Open your browser and navigate to http://localhost:3000 to see the app in action.
+
+## Usage
+
+- Browsing Recipes: Use the pagination controls to navigate through the recipe list.
+- Viewing Recipe Details: Click on a recipe card to view detailed information about the recipe.
+- Footer Navigation: Use the footer links to explore additional information like terms and conditions.
+
+## API Endpoints
+
+GET /api/recipes Description: Fetches a paginated list of recipes. Parameters: page: Page number (default: 1) limit: Number of recipes per page (default: 10)
+
+GET /api/recipes/ Description: Fetches detailed information about a specific recipe by its ID.
+
+## Technologies Used
+
+- Frontend: React, Tailwind CSS
+- Backend: Node.js, Express
+- Database: MongoDB
+- Styling: Tailwind CSS
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+## Contact
+
+For any inquiries or feedback, feel free to reach out:
+
+- Author: Andrew Ofuenweuche
+- Email: chidi.andrew@gmail.com
