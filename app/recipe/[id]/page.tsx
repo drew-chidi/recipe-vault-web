@@ -1,17 +1,35 @@
 'use client';
 
+import ConfirmationModal from '@/components/modals/confirmation-modal';
 import { Button } from '@/components/ui/button';
-import { useGetRecipeById } from '@/hooks/useRecipes';
+import { useDeleteRecipe, useGetRecipeById } from '@/hooks/useRecipes';
 import { DeleteIcon, Edit2Icon, EditIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function RecipeDetails() {
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
   console.log({ params });
   const { data: recipe, error, isLoading } = useGetRecipeById(id);
+  const {
+    mutate: deleteRecipe,
+    status,
+    isError,
+    isSuccess,
+    error: errorDeleting,
+  } = useDeleteRecipe();
+
+  const handleDelete = () => {
+    deleteRecipe(id);
+  };
+
+  useEffect(() => {
+    if (isSuccess) router.push('/');
+  }, [isSuccess]);
 
   console.log({ recipe });
   return (
@@ -40,11 +58,20 @@ export default function RecipeDetails() {
           <Button
             variant='destructive'
             className='inline-flex items-center gap-2'
+            onClick={() => setShowConfirmation(true)}
           >
             <DeleteIcon /> Delete
           </Button>
         </div>
       </div>
+      <ConfirmationModal
+        loading={status === 'pending'}
+        visible={showConfirmation}
+        onClose={() => {
+          setShowConfirmation(false);
+        }}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

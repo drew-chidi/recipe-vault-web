@@ -44,10 +44,10 @@ export const useUpdateRecipe = (id: string, recipe: RecipeType) => {
   });
 };
 
-export const useDeleteRecipe = (id: string) => {
+export const useDeleteRecipe = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => deleteRecipe(id),
+    mutationFn: (id: string) => deleteRecipe(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['recipes'] });
     },

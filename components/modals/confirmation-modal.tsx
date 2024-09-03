@@ -1,36 +1,40 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
-import style from './LogoutModal.module.css';
 import ModalContainer from './modal-container';
 
 interface myComponentProps {
   visible?: boolean;
   onClose?: () => void;
+  onConfirm?: () => void;
+  loading: boolean;
 }
 
-const ConfirmationModal = ({ visible, onClose }: myComponentProps) => {
+const ConfirmationModal = ({
+  visible,
+  onClose,
+  onConfirm,
+  loading,
+}: myComponentProps) => {
   return (
     <>
       <ModalContainer
-        modalClass={style?.logout_modal_index_wrap}
+        modalClass={`rounded-[0.8rem] flex flex-col`}
         title='Recipe Delete Modal'
         hasCloseButton
         handleClose={onClose}
         show={visible as boolean}
       >
-        <div className={style.content_wrap}>
-          <p className={style?.title}>Want to delete recipe?</p>
-          <p className={style.text}>
+        <div className='px-4'>
+          <p className='text-lg font-semibold'>Want to delete recipe?</p>
+          <p className='text-[0.625rem]'>
             {`Are you sure you want to delete this item? Please confirm by clicking "Yes,
             delete" or "Cancel".`}
           </p>
         </div>
         {/* content end here */}
-        <div className={style.button_wrap}>
+        <div className='mt-auto flex items-center justify-end gap-4 py-[0.8rem] px-6'>
           <Button
             variant={'outline'}
-            className={`border-error text-primary font-light  hover:text-primary ${style.btn_one}`}
             onClick={() => {
               onClose && onClose();
             }}
@@ -38,10 +42,11 @@ const ConfirmationModal = ({ visible, onClose }: myComponentProps) => {
             Cancel
           </Button>
           <Button
-            // onClick={handleLogoutFunc}
-            // loading={isLoading}
+            variant='destructive'
+            onClick={onConfirm}
+            loading={loading}
             loadingText='Yes, Delete'
-            // disabled={isLoading}
+            disabled={loading}
             className={cn('font-light')}
           >
             Yes, Delete
