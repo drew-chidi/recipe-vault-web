@@ -1,6 +1,8 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { useGetRecipeById } from '@/hooks/useRecipes';
+import { DeleteIcon, Edit2Icon, EditIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -23,18 +25,25 @@ export default function RecipeDetails() {
           width={120}
           className='w-full h-auto rounded-lg mb-4'
         />
-        <h2 className='text-2xl font-semibold text-indigo-700 mb-2'>
-          Ingredients
-        </h2>
+        <h2 className='text-2xl font-semibold mb-2'>Ingredients</h2>
         <ul className='list-disc pl-6 mb-4'>
           {recipe?.data?.ingredients?.map((ingredient, index) => (
             <li key={index}>{ingredient}</li>
           ))}
         </ul>
-        <h2 className='text-2xl font-semibold text-indigo-700 mb-2'>
-          Instructions
-        </h2>
+        <h2 className='text-2xl font-semibold mb-2'>Instructions</h2>
         <p>{recipe?.data?.instructions}</p>
+        <div className='flex gap-3 items-center justify-end'>
+          <Button variant='outline' className='inline-flex items-center gap-2'>
+            <Edit2Icon /> Edit
+          </Button>
+          <Button
+            variant='destructive'
+            className='inline-flex items-center gap-2'
+          >
+            <DeleteIcon /> Delete
+          </Button>
+        </div>
       </div>
     </div>
   );
