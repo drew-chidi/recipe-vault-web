@@ -11,6 +11,7 @@ import { PlusCircleIcon } from 'lucide-react'
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 import 'react-quill/dist/quill.snow.css'
 import { useCreateRecipe } from '@/hooks/useRecipes'
+import { toast } from 'sonner'
 
 type FormValues = {
   title: string
@@ -70,7 +71,17 @@ export default function CreateRecipe() {
       formData.append('image', image)
     }
 
-    createRecipe(formData)
+    createRecipe(formData, {
+      onSuccess: () => {
+        toast('Yay! Recipe added successfully')
+        formik.resetForm()
+        setIngredients([''])
+        formik.setFieldValue('image', null)
+      },
+      onError: (error) => {
+        toast(`Error: ${error.message}`)
+      },
+    })
   }
 
   const formik = useFormik<FormValues>({

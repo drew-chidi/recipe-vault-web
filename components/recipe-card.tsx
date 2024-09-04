@@ -14,7 +14,11 @@ const RecipeCard = ({ recipe }: Props) => {
       </div>
       <div className='md:p-3'>
         <h2 className='text-lg font-bold'>{recipe.title}</h2>
-        <p className='text-sm'>{recipe.instructions}</p>
+        {/* <p className='text-sm'>{recipe.instructions}</p> */}
+        <div 
+          className='text-sm' 
+          dangerouslySetInnerHTML={{ __html: recipe.instructions }}
+        />
       </div>
     </div>
   )

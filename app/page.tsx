@@ -47,7 +47,7 @@ export default function Home() {
             <div className='text-center'>
               <p className='text-sm font-semibold'>No recipes found.</p>
               <p className='mt-2 text-xs'>You can create a new recipe by clicking the button below.</p>
-              <Button onClick={() => router.push('/recipe/create')} className='mt-4 text-foreground '>
+              <Button onClick={() => router.push('/recipe/create')} className='mt-4'>
                 Create Recipe
               </Button>
             </div>
