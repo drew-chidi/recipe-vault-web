@@ -32,11 +32,10 @@ export const createRecipe = async (recipe: FormData) => {
   return response.json()
 }
 
-export const updateRecipe = async (id: string, recipe: RecipeType) => {
+export const updateRecipe = async (id: string, recipe: FormData) => {
   const response = await fetch(`${API_BASE_URL}/${id}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(recipe),
+    body: recipe,
   })
   if (!response.ok) {
     throw new Error('Network response was not ok')

@@ -34,9 +34,22 @@ export default function RecipeDetails() {
   const handleDelete = () => {
     deleteRecipe(id)
   }
-  const handleUpdate = () => {
-    const updatedRecipe = {}
-    updateRecipe({ id, recipe: updatedRecipe })
+
+  const handleUpdate = async () => {
+    const formData = new FormData()
+    const { image, title, ingredients, instructions } = formik.values
+
+    if (title) formData.append('title', title)
+    if (instructions) formData.append('instructions', instructions)
+
+    ingredients.forEach((ingredient, index) => {
+      formData.append(`ingredients[${index}]`, ingredient)
+    })
+
+    if (image instanceof File) {
+      formData.append('image', image)
+    }
+    updateRecipe({ id, recipe: formData })
   }
 
   useEffect(() => {
