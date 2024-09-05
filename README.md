@@ -9,7 +9,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running the App](#running-the-app)
-- [Usage](#usage)
+- [Deployment Link](#deployment)
 - [API Endpoints](#api-endpoints)
 - [Technologies Used](#technologies-used)
 - [License](#license)
@@ -39,14 +39,14 @@ Ensure you have the following installed:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/recipe-vault.git
+   git clone https://github.com/drew-chidi/recipe-vault-web.git
 
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd recipe-vault
+   cd recipe-vault-web
 
    ```
 
@@ -67,11 +67,9 @@ Ensure you have the following installed:
 
 2. Open your browser and navigate to http://localhost:3000 to see the app in action.
 
-## Usage
+## Deployment Link
 
-- Browsing Recipes: Use the pagination controls to navigate through the recipe list.
-- Viewing Recipe Details: Click on a recipe card to view detailed information about the recipe.
-- Footer Navigation: Use the footer links to explore additional information like terms and conditions.
+[Recipe Vault](https://recipe-vault-web.vercel.app/)
 
 ## API Endpoints
 
@@ -85,6 +83,7 @@ GET /api/recipes/ Description: Fetches detailed information about a specific rec
 - Backend: Node.js, Express
 - Database: MongoDB
 - Styling: Tailwind CSS
+- Storage: Cloudinary
 
 ## License
 
@@ -96,3 +95,5 @@ For any inquiries or feedback, feel free to reach out:
 
 - Author: Andrew Ofuenweuche
 - Email: chidi.andrew@gmail.com
+
+username: pci-qs
