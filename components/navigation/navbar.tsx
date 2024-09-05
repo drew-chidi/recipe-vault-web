@@ -2,12 +2,10 @@
 
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { MenuIcon, X } from 'lucide-react'
 
-type Props = {}
-
-const Navbar = (props: Props) => {
+const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false)
   const pathname = usePathname()
 
@@ -21,8 +19,8 @@ const Navbar = (props: Props) => {
         <Link href='/' className=' text-lg font-bold'>
           Recipe Vault
         </Link>
-        <div className='hidden sm:flex'>
-          <Link href='/' className=' mr-4'>
+        <div className='hidden sm:flex gap-10'>
+          <Link href='/' className=''>
             Home
           </Link>
           <Link href='/recipe/create' className=''>
@@ -36,13 +34,9 @@ const Navbar = (props: Props) => {
         )}
         {/* Mobile Nav Menu */}
         {showMenu && (
-          <div className='sm:hidden w-full left-0 right-0 text-center absolute flex flex-col top-[3.75rem] bg-primary text-primary-foreground p-8 border-t border-border'>
-            <Link href='/' className=' mr-4'>
-              Home
-            </Link>
-            <Link href='/recipe/create' className=''>
-              Create Recipe
-            </Link>
+          <div className='sm:hidden w-full left-0 right-0 text-center absolute flex flex-col top-[3.75rem] bg-primary text-primary-foreground p-8 border-t border-border gap-7'>
+            <Link href='/'>Home</Link>
+            <Link href='/recipe/create'>Create Recipe</Link>
           </div>
         )}
       </div>

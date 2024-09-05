@@ -102,7 +102,7 @@ export default function RecipeDetails() {
       ) : (
         <>
           <div className='container mx-auto py-6'>
-            <h1 className='text-[2rem] font-bold mb-10'>{recipe?.data?.title}</h1>
+            <h1 className='text-[2rem] tracking-tight font-bold mb-10'>{recipe?.data?.title}</h1>
             <Image
               src={recipe?.data?.image ?? ''}
               alt={recipe?.data?.title ?? 'food'}

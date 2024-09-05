@@ -3,10 +3,8 @@ import { ApiResponse, RecipeType } from '@/types/recipe.type'
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
 
-console.log(API_BASE_URL)
-
 export const fetchRecipes = async (page = 1): Promise<ApiResponse<RecipeType[]>> => {
-  const response = await fetch(`${API_BASE_URL}/?page=${page}`)
+  const response = await fetch(`${API_BASE_URL}?page=${page}`)
   if (!response.ok) {
     throw new Error('Network response was not ok')
   }

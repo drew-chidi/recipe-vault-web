@@ -6,33 +6,49 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination';
+} from '@/components/ui/pagination'
+import { Button } from './ui/button'
 
-export function CustomPagination() {
+type Props = {
+  currentPage: number
+  totalPages: number
+  onPageChange: (e: number) => void
+}
+
+export function CustomPagination({ currentPage, totalPages, onPageChange }: Props) {
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href='#' />
+          <Button variant={'outline'} disabled={currentPage < 2} onClick={() => onPageChange(currentPage - 1)} className='cursor-pointer'>
+            Prev
+          </Button>
         </PaginationItem>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <PaginationItem key={index}>
+            <PaginationLink isActive={currentPage === index + 1} onClick={() => onPageChange(index + 1)}>
+              {index + 1}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+        {totalPages > 5 && currentPage < totalPages - 1 && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
         <PaginationItem>
-          <PaginationLink href='#'>1</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href='#' isActive>
-            2
-          </PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href='#'>3</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext href='#' />
+          <Button
+            variant={'outline'}
+            disabled={currentPage >= totalPages}
+            onClick={() => {
+              onPageChange(currentPage + 1)
+            }}
+            className='cursor-pointer'
+          >
+            Next
+          </Button>
         </PaginationItem>
       </PaginationContent>
     </Pagination>
-  );
+  )
 }

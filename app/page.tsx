@@ -1,22 +1,29 @@
 'use client'
 
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+
 import { CustomPagination } from '@/components/pagination'
 import RecipeCard from '@/components/recipe-card'
 import { SkeletonCard } from '@/components/skeleton-card'
 import { Button } from '@/components/ui/button'
 import { useGetRecipes } from '@/hooks/useRecipes'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const router = useRouter()
-  const { data: recipes, error, isLoading } = useGetRecipes()
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const { data: recipes, error, isLoading } = useGetRecipes(currentPage)
 
+  const handlePageChange = (page: number) => {
+    console.log({ page })
+    setCurrentPage(page)
+  }
   return (
     <div className='min-h-screen'>
       <div className='container mx-auto py-6'>
         <div className='text-center'>
-          <h1 className='text-4xl font-bold my-10'>Recipes</h1>
+          <h1 className='text-[2rem] tracking-tight font-bold my-10'>Recipes</h1>
           <p className='text-foreground'>
             Welcome to our Recipe Management Application, where culinary excellence meets convenience. Our dedicated team of chefs and food experts
             meticulously tests each recipe to ensure flawless results in your kitchen. From simple weeknight dinners to elaborate feasts, our
@@ -47,19 +54,15 @@ export default function Home() {
             </div>
           ) : (
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-              {recipes?.data.map((recipe, index) => (
-                <div
-                  key={recipe?._id}
-                  // className={`${index !== recipes?.data?.length - 1 ? 'border-b pb-6 border-border md:border-0' : ''} md:border-border md:border`}
-                  className={`pb-6 border-b border-border md:border md:border-border`}
-                >
+              {recipes?.data.map((recipe) => (
+                <div key={recipe?._id} className={`pb-6 border-b border-border md:border md:border-border`}>
                   <RecipeCard recipe={recipe} />
                 </div>
               ))}
             </div>
           )}
           <div className='my-20 mx-auto'>
-            <CustomPagination />
+            <CustomPagination currentPage={Number(currentPage)} totalPages={recipes?.totalPages || 1} onPageChange={handlePageChange} />
           </div>
         </section>
       </div>

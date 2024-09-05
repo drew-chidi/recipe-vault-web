@@ -105,7 +105,7 @@ export default function CreateRecipe() {
   return (
     <div className=' min-h-screen max-w-xl mx-auto'>
       <div className='container mx-auto py-6'>
-        <h1 className='text-4xl font-bold mb-6'>Create New Recipe</h1>
+        <h1 className='text-[2rem] tracking-tight font-bold mb-6'>Create New Recipe</h1>
         <form onSubmit={formik.handleSubmit} className='space-y-4'>
           <div>
             <Input

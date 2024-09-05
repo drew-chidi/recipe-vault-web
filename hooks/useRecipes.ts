@@ -5,7 +5,7 @@ import { ApiResponse, RecipeType } from '@/types/recipe.type'
 
 export const useGetRecipes = (page?: number) => {
   return useQuery<ApiResponse<RecipeType[]>, Error>({
-    queryKey: ['recipes'],
+    queryKey: ['recipes', page],
     queryFn: () => fetchRecipes(page),
   })
 }
