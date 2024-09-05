@@ -26,7 +26,7 @@ export default function RootLayout({
           <div className='relative bg-primary text-primary-foreground z-50'>
             <Navbar />
           </div>
-          <main className='mt-16 px-5 md:px-8 lg:px-10'>{children}</main>
+          <main className='mt-[3.75rem] '>{children}</main>
           <Toaster />
           <footer className='bg-primary text-primary-foreground'>
             <Footer />

@@ -12,6 +12,7 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 import 'react-quill/dist/quill.snow.css'
 import { useCreateRecipe } from '@/hooks/useRecipes'
 import { useToast } from '@/hooks/use-toast'
+import { cn } from '@/lib/utils'
 
 type FormValues = {
   title: string
@@ -60,6 +61,11 @@ export default function CreateRecipe() {
     const formData = new FormData()
     const { image, title, ingredients, instructions } = formik.values
 
+    if (instructions === '<p><br></p>' || !instructions.trim()) {
+      formik.setFieldError('instructions', 'Instructions must not be empty')
+      return
+    }
+
     if (title) formData.append('title', title)
     if (instructions) formData.append('instructions', instructions)
 
@@ -103,17 +109,17 @@ export default function CreateRecipe() {
   })
 
   return (
-    <div className=' min-h-screen max-w-xl mx-auto'>
+    <div className=' min-h-screen max-w-xl mx-auto px-5 md:px-8 lg:px-10 pt-20'>
       <div className='container mx-auto py-6'>
         <h1 className='text-[2rem] tracking-tight font-bold mb-6'>Create New Recipe</h1>
-        <form onSubmit={formik.handleSubmit} className='space-y-4'>
+        <form onSubmit={formik.handleSubmit} className='flex flex-col gap-6'>
           <div>
             <Input
               label='Title'
               name='title'
               id='title'
               type='text'
-              className='mt-1 block w-full p-2 border border-gray-300 rounded-md'
+              className='mt-1 block w-full p-2 border rounded-md'
               value={formik?.values.title}
               onBlur={formik.handleBlur}
               error={formik.errors.title}
@@ -124,20 +130,22 @@ export default function CreateRecipe() {
           <div>
             <label className='block relative text-sm font-normal mb-1'>Ingredients</label>
             {ingredients.map((ingredient, index) => (
-              <div key={index} className='flex items-center space-x-2 mb-3 w-full'>
-                <Input
-                  type='text'
-                  name={`ingredients.${index}`}
-                  id={`ingredients.${index}`}
-                  value={ingredient}
-                  onChange={(e) => handleIngredientChange(index, e.target.value)}
-                  onBlur={formik.handleBlur}
-                  error={formik.errors.ingredients?.[index]}
-                  touched={Array.isArray(formik.touched.ingredients) ? formik.touched.ingredients[index] : false}
-                  placeholder='Enter ingredient'
-                  className=''
-                />
-                <button type='button' onClick={() => removeIngredient(index)} className='text-red-500 hover:text-red-700'>
+              <div key={index} className='grid grid-cols-12 gap-2 mb-3'>
+                <div className='col-span-11'>
+                  <Input
+                    type='text'
+                    name={`ingredients.${index}`}
+                    id={`ingredients.${index}`}
+                    value={ingredient}
+                    onChange={(e) => handleIngredientChange(index, e.target.value)}
+                    onBlur={formik.handleBlur}
+                    error={formik.errors.ingredients?.[index]}
+                    touched={Array.isArray(formik.touched.ingredients) ? formik.touched.ingredients[index] : false}
+                    placeholder='Enter ingredient'
+                    className='w-full'
+                  />
+                </div>
+                <button type='button' onClick={() => removeIngredient(index)} className='text-red-500 hover:text-red-700 col-span-1 justify-self-end'>
                   <Icon name='remove' width={14.28} height={18.63} />
                 </button>
               </div>
@@ -156,8 +164,10 @@ export default function CreateRecipe() {
                 theme='snow'
                 value={formik?.values?.instructions}
                 onChange={(value) => formik.setFieldValue('instructions', value)}
-                className='my-2 h-full bg-white'
+                onBlur={() => formik?.setFieldTouched('instructions', true)}
+                className='my-2 h-full bg-white text-foreground'
               />
+              <span className={cn('text-xs text-red-500 hidden', formik?.errors?.instructions && 'block')}>{formik?.errors?.instructions}</span>
             </div>
           </div>
           <div>
@@ -166,11 +176,11 @@ export default function CreateRecipe() {
               id='image'
               name='image'
               type='file'
-              className='mt-1 block w-auto p-2 border border-gray-300 rounded-md'
+              className='mt-1 block p-2 border border-gray-300 rounded-md w-full'
               onChange={handleImageChange}
             />
           </div>
-          <Button type='submit' className='' loading={status === 'pending'} loadingText='Creating...'>
+          <Button type='submit' className='max-w-[10rem] mt-7' loading={status === 'pending'} loadingText='Creating...'>
             Create Recipe
           </Button>
         </form>

@@ -12,6 +12,7 @@ import Icon from '../icon/icon'
 import { Input } from '../ui/input'
 import 'react-quill/dist/quill.snow.css'
 import { CreateRecipeSchema } from '@/utils/schema/create-recipe.schema'
+import { cn } from '@/lib/utils'
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
@@ -38,7 +39,10 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }
     enableReinitialize: true,
     validationSchema: CreateRecipeSchema,
     onSubmit: (values) => {
-      console.log({ values })
+      if (values.instructions === '<p><br></p>' || !values.instructions.trim()) {
+        formik.setFieldError('instructions', 'Instructions are required')
+        return
+      }
       onConfirm(values)
     },
   })
@@ -75,7 +79,7 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }
   return (
     <>
       <ModalContainer
-        modalClass={`rounded-[0.8rem] flex flex-col max-h-[70%] overflow-y-scroll`}
+        modalClass={`rounded-[0.8rem] flex flex-col max-h-[70%] md:w-3/4 md:max-w-[37.5rem] overflow-y-scroll px-7 pb-14`}
         title='Recipe Delete Modal'
         hasCloseButton
         handleClose={onClose}
@@ -84,14 +88,14 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }
         <div className='px-4'>
           <div className='container mx-auto py-6'>
             <h1 className='text-4xl font-bold mb-6'>Update Recipe</h1>
-            <form onSubmit={formik.handleSubmit} className='space-y-4'>
+            <form onSubmit={formik.handleSubmit} className='flex flex-col gap-6'>
               <div>
                 <Input
                   label='Title'
                   name='title'
                   id='title'
                   type='text'
-                  className='mt-1 block w-full p-2 border border-gray-300 rounded-md'
+                  className='mt-1 block w-full p-2 border rounded-md'
                   value={formik?.values.title}
                   onBlur={formik.handleBlur}
                   error={formik?.errors?.title}
@@ -102,19 +106,21 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }
               <div>
                 <label className='block relative text-sm font-normal mb-1'>Ingredients</label>
                 {formik.values.ingredients.map((ingredient, index) => (
-                  <div key={index} className='flex items-center space-x-2 mb-3 w-full'>
-                    <Input
-                      type='text'
-                      name={`ingredients.${index}`}
-                      id={`ingredients.${index}`}
-                      value={ingredient}
-                      onChange={(e) => handleIngredientChange(index, e.target.value)}
-                      onBlur={formik.handleBlur}
-                      error={formik.errors.ingredients?.[index]}
-                      touched={Array.isArray(formik.touched.ingredients) ? formik.touched.ingredients[index] : false}
-                      placeholder='Enter ingredient'
-                      className=''
-                    />
+                  <div key={index} className='grid grid-cols-12 gap-2 mb-3'>
+                    <div className='col-span-11'>
+                      <Input
+                        type='text'
+                        name={`ingredients.${index}`}
+                        id={`ingredients.${index}`}
+                        value={ingredient}
+                        onChange={(e) => handleIngredientChange(index, e.target.value)}
+                        onBlur={formik.handleBlur}
+                        error={formik.errors.ingredients?.[index]}
+                        touched={Array.isArray(formik.touched.ingredients) ? formik.touched.ingredients[index] : false}
+                        placeholder='Enter ingredient'
+                        className='w-full min-w-[12.25rem] flex'
+                      />
+                    </div>
                     <button type='button' onClick={() => removeIngredient(index)} className='text-red-500 hover:text-red-700'>
                       <Icon name='remove' width={14.28} height={18.63} />
                     </button>
@@ -134,11 +140,13 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }
                     theme='snow'
                     value={formik?.values?.instructions}
                     onChange={(value) => formik.setFieldValue('instructions', value)}
-                    className='my-2 h-full bg-white'
+                    onBlur={() => formik?.setFieldTouched('instructions', true)}
+                    className='my-2 h-full bg-white text-[#333]'
                   />
+                  <span className={cn('text-xs text-red-500 hidden', formik?.errors?.instructions && 'block')}>{formik?.errors?.instructions}</span>
                 </div>
               </div>
-              <div className='w-full'>
+              <div className='w-full mb-10'>
                 {previewImage && (
                   <div className='mb-4'>
                     <Image src={previewImage} alt='Preview' width={100} height={100} className='rounded-lg mb-2' />
@@ -153,7 +161,7 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }
                   onChange={handleImageChange}
                 />
               </div>
-              <Button type='submit' className='my-10' loading={loading} loadingText='Updating...'>
+              <Button type='submit' className='' loading={loading} loadingText='Updating...'>
                 Update Recipe
               </Button>
             </form>

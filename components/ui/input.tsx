@@ -21,9 +21,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div className={cn('mt-1', containerClass)}>
         {label && (
           <label htmlFor={label} className={cn('block relative text-sm font-normal mt-1', labelClass)}>
-            {' '}
             {label}
-            {isRequired && <span className='inline-block text-red-400 text-lg pl-1 absolute bottom-1'>*</span>}{' '}
           </label>
         )}
         <input
@@ -35,13 +33,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           value={value}
           autoComplete='off'
           className={cn(
-            'flex h-9 w-full rounded-sm border border-primary px-3 py-1 text-sm  transition-colors focus-visible:ring-primary placeholder:font-light placeholder:text-sm placeholder:text-#6E7C87 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50 border-[#E5E9EB] placeholder:text-#6E7C87 bg-white',
+            'flex h-9 w-full rounded-sm border px-3 py-1 text-sm  transition-colors placeholder:font-light placeholder:text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50 border-border text-[#333] bg-white',
             className,
             error && touched && 'border-red-500 focus-visible:ring-transparent focus-visible:ring-0'
           )}
           ref={ref}
           {...props}
-          defaultValue={type === 'color' ? 'var(--primary-color)' : ''}
         />
         <span className={cn('text-xs text-red-500 hidden', error && 'block')}>{error && touched && error}</span>
       </div>

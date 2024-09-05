@@ -9,6 +9,7 @@ import EditRecipeModal from '@/components/modals/edit-recipe-modal'
 import { Button } from '@/components/ui/button'
 import { useDeleteRecipe, useGetRecipeById, useUpdateRecipe } from '@/hooks/useRecipes'
 import { useToast } from '@/hooks/use-toast'
+import { Loader2 } from 'lucide-react'
 
 type FormValues = {
   title: string
@@ -24,7 +25,7 @@ export default function RecipeDetails() {
   const router = useRouter()
   const id = params.id as string
 
-  const { data: recipe, error, isLoading } = useGetRecipeById(id)
+  const { data: recipe, error, status: isGettingRecipe } = useGetRecipeById(id)
   const { mutate: deleteRecipe, status, isError, isSuccess, error: errorDeleting } = useDeleteRecipe()
   const { mutate: updateRecipe, status: updateStatus, isError: isErrorUpdating, isSuccess: successUpdating, error: errorUpdating } = useUpdateRecipe()
 
@@ -46,7 +47,6 @@ export default function RecipeDetails() {
   }, [isSuccess])
 
   const handleUpdate = async (values: FormValues) => {
-    console.log({ values })
     const formData = new FormData()
     const { image, title, ingredients, instructions } = values
 
@@ -93,11 +93,10 @@ export default function RecipeDetails() {
   }, [recipe])
 
   return (
-    <div className='bg-gray-100 min-h-screen max-w-[37.5rem]'>
-      {!recipe && status !== 'pending' ? (
+    <div className='min-h-screen max-w-[37.5rem] px-5 md:px-8 lg:px-10'>
+      {status === 'pending' && isGettingRecipe === 'pending' ? (
         <div className='text-center m-auto'>
-          <p className='text-sm font-semibold'>Opps!.</p>
-          <p className='mt-2 text-xs'>Item cannot be found</p>
+          <Loader2 className='animate-spin h-20 w-20' />
         </div>
       ) : (
         <>

@@ -14,16 +14,16 @@ const Navbar = () => {
   }, [pathname])
 
   return (
-    <nav className='bg-primary text-primary-foreground p-4 fixed top-0 right-0 left-0'>
+    <nav className='bg-primary text-[#333] p-4 fixed top-0 right-0 left-0 md:px-8 lg:px-10'>
       <div className='container mx-auto flex justify-between items-center'>
         <Link href='/' className=' text-lg font-bold'>
           Recipe Vault
         </Link>
         <div className='hidden sm:flex gap-10'>
-          <Link href='/' className=''>
+          <Link href='/' className='font-medium'>
             Home
           </Link>
-          <Link href='/recipe/create' className=''>
+          <Link href='/recipe/create' className='font-medium'>
             Create Recipe
           </Link>
         </div>
