@@ -120,7 +120,7 @@ export default function RecipeDetails() {
             </div>
             <h2 className='text-2xl font-semibold mb-2'>Instructions</h2>
             <div className='text-sm' dangerouslySetInnerHTML={{ __html: recipe?.data?.instructions ?? <p></p> }} />
-            <div className='flex gap-3 items-center justify-end my-20'>
+            <div className='flex gap-3 items-center justify-end mt-20 mb-40'>
               <Button variant='outline' className='w-20 inline-flex items-center gap-2' onClick={() => setShowUpdateForm(true)}>
                 Edit
               </Button>

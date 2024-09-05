@@ -50,7 +50,8 @@ export default function Home() {
               {recipes?.data.map((recipe, index) => (
                 <div
                   key={recipe?._id}
-                  className={`${index !== recipes?.data?.length - 1 ? 'border-b pb-6 border-border md:border-0' : ''} md:border-border md:border`}
+                  // className={`${index !== recipes?.data?.length - 1 ? 'border-b pb-6 border-border md:border-0' : ''} md:border-border md:border`}
+                  className={`pb-6 border-b border-border md:border md:border-border`}
                 >
                   <RecipeCard recipe={recipe} />
                 </div>

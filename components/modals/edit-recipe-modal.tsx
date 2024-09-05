@@ -20,7 +20,6 @@ interface myComponentProps {
   onClose?: () => void
   onConfirm: (e: FormValues) => void
   loading: boolean
-  // formik: any
   initialValues: any
 }
 
@@ -32,10 +31,6 @@ type FormValues = {
 }
 
 const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }: myComponentProps) => {
-  // const [ingredients, setIngredients] = useState<string[]>(formik?.values.ingredients || [])
-  // const [previewImage, setPreviewImage] = useState<string | null>(
-  //   formik?.values.image instanceof File ? URL.createObjectURL(formik.values.image) : formik?.values.image
-  // )
   const [previewImage, setPreviewImage] = useState(initialValues.image)
 
   const formik = useFormik<FormValues>({
@@ -43,6 +38,7 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }
     enableReinitialize: true,
     validationSchema: CreateRecipeSchema,
     onSubmit: (values) => {
+      console.log({ values })
       onConfirm(values)
     },
   })
@@ -79,7 +75,7 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }
   return (
     <>
       <ModalContainer
-        modalClass={`rounded-[0.8rem] flex flex-col`}
+        modalClass={`rounded-[0.8rem] flex flex-col max-h-[70%] overflow-y-scroll`}
         title='Recipe Delete Modal'
         hasCloseButton
         handleClose={onClose}
@@ -142,7 +138,7 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }
                   />
                 </div>
               </div>
-              <div>
+              <div className='w-full'>
                 {previewImage && (
                   <div className='mb-4'>
                     <Image src={previewImage} alt='Preview' width={100} height={100} className='rounded-lg mb-2' />
@@ -153,11 +149,11 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }
                   id='image'
                   name='image'
                   type='file'
-                  className='mt-1 block w-auto p-2 border border-gray-300 rounded-md'
+                  className='mt-1 block w-auto p-2 border border-gray-300 rounded-md max-w-full '
                   onChange={handleImageChange}
                 />
               </div>
-              <Button type='submit' className='' loading={loading} loadingText='Updating...'>
+              <Button type='submit' className='my-10' loading={loading} loadingText='Updating...'>
                 Update Recipe
               </Button>
             </form>
