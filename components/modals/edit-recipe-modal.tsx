@@ -2,43 +2,63 @@
 
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
+import { useFormik } from 'formik'
 import { PlusCircleIcon } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import ModalContainer from './modal-container'
 import Icon from '../icon/icon'
 import { Input } from '../ui/input'
 import 'react-quill/dist/quill.snow.css'
+import { CreateRecipeSchema } from '@/utils/schema/create-recipe.schema'
 
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
 interface myComponentProps {
   visible?: boolean
   onClose?: () => void
-  onConfirm?: () => void
+  onConfirm: (e: FormValues) => void
   loading: boolean
-  formik: any
+  // formik: any
+  initialValues: any
 }
 
-const EditRecipeModal = ({ visible, onClose, onConfirm, loading, formik }: myComponentProps) => {
-  const [ingredients, setIngredients] = useState<string[]>([''])
+type FormValues = {
+  title: string
+  ingredients: string[]
+  instructions: string
+  image: File | null | string
+}
+
+const EditRecipeModal = ({ visible, onClose, onConfirm, loading, initialValues }: myComponentProps) => {
+  // const [ingredients, setIngredients] = useState<string[]>(formik?.values.ingredients || [])
+  // const [previewImage, setPreviewImage] = useState<string | null>(
+  //   formik?.values.image instanceof File ? URL.createObjectURL(formik.values.image) : formik?.values.image
+  // )
+  const [previewImage, setPreviewImage] = useState(initialValues.image)
+
+  const formik = useFormik<FormValues>({
+    initialValues,
+    enableReinitialize: true,
+    validationSchema: CreateRecipeSchema,
+    onSubmit: (values) => {
+      onConfirm(values)
+    },
+  })
 
   const handleIngredientChange = (index: number, value: string) => {
-    const newIngredients = [...ingredients]
+    const newIngredients = [...formik.values.ingredients]
     newIngredients[index] = value
-    setIngredients(newIngredients)
     formik.setFieldValue('ingredients', newIngredients)
   }
 
   const addIngredient = () => {
-    setIngredients([...ingredients, ''])
-    formik.setFieldValue('ingredients', [...ingredients, ''])
+    formik.setFieldValue('ingredients', [...formik.values.ingredients, ''])
   }
 
   const removeIngredient = (index: number) => {
-    const newIngredients = ingredients.filter((_, i) => i !== index)
-    setIngredients(newIngredients)
+    const newIngredients = formik.values.ingredients.filter((_, i) => i !== index)
     formik.setFieldValue('ingredients', newIngredients)
   }
 
@@ -52,8 +72,10 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, formik }: myCom
         return
       }
       formik.setFieldValue('image', file)
+      setPreviewImage(URL.createObjectURL(file))
     }
   }
+
   return (
     <>
       <ModalContainer
@@ -76,14 +98,14 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, formik }: myCom
                   className='mt-1 block w-full p-2 border border-gray-300 rounded-md'
                   value={formik?.values.title}
                   onBlur={formik.handleBlur}
-                  error={formik.errors.title}
-                  touched={formik.touched.title}
+                  error={formik?.errors?.title}
+                  touched={formik.touched?.title}
                   onChange={formik?.handleChange}
                 />
               </div>
               <div>
                 <label className='block relative text-sm font-normal mb-1'>Ingredients</label>
-                {ingredients.map((ingredient, index) => (
+                {formik.values.ingredients.map((ingredient, index) => (
                   <div key={index} className='flex items-center space-x-2 mb-3 w-full'>
                     <Input
                       type='text'
@@ -121,6 +143,11 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, formik }: myCom
                 </div>
               </div>
               <div>
+                {previewImage && (
+                  <div className='mb-4'>
+                    <Image src={previewImage} alt='Preview' width={100} height={100} className='rounded-lg mb-2' />
+                  </div>
+                )}
                 <Input
                   label='Image'
                   id='image'
@@ -130,32 +157,11 @@ const EditRecipeModal = ({ visible, onClose, onConfirm, loading, formik }: myCom
                   onChange={handleImageChange}
                 />
               </div>
-              <Button type='submit' className='' loading={status === 'pending'} loadingText='Creating...'>
-                Create Recipe
+              <Button type='submit' className='' loading={loading} loadingText='Updating...'>
+                Update Recipe
               </Button>
             </form>
           </div>
-        </div>
-        {/* content end here */}
-        <div className='mt-auto flex items-center justify-end gap-4 py-[0.8rem] px-6'>
-          <Button
-            variant={'outline'}
-            onClick={() => {
-              onClose && onClose()
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant='destructive'
-            onClick={onConfirm}
-            loading={loading}
-            loadingText='Yes, Delete'
-            disabled={loading}
-            className={cn('font-light')}
-          >
-            Yes, Delete
-          </Button>
         </div>
       </ModalContainer>
     </>

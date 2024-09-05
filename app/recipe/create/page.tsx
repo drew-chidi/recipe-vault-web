@@ -11,7 +11,7 @@ import { PlusCircleIcon } from 'lucide-react'
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 import 'react-quill/dist/quill.snow.css'
 import { useCreateRecipe } from '@/hooks/useRecipes'
-import { toast } from 'sonner'
+import { useToast } from '@/hooks/use-toast'
 
 type FormValues = {
   title: string
@@ -23,6 +23,7 @@ type FormValues = {
 export default function CreateRecipe() {
   const [ingredients, setIngredients] = useState<string[]>([''])
   const { mutate: createRecipe, status, isError, isSuccess, error: errorDeleting } = useCreateRecipe()
+  const { toast } = useToast()
 
   const handleIngredientChange = (index: number, value: string) => {
     const newIngredients = [...ingredients]
@@ -56,7 +57,6 @@ export default function CreateRecipe() {
   }
 
   const handleSubmit = async () => {
-    console.log({ formikkkk: formik.values })
     const formData = new FormData()
     const { image, title, ingredients, instructions } = formik.values
 
@@ -73,13 +73,20 @@ export default function CreateRecipe() {
 
     createRecipe(formData, {
       onSuccess: () => {
-        toast('Yay! Recipe added successfully')
+        toast({
+          variant: 'success',
+          description: 'Yay! Recipe added succesfully.',
+        })
         formik.resetForm()
         setIngredients([''])
         formik.setFieldValue('image', null)
       },
       onError: (error) => {
-        toast(`Error: ${error.message}`)
+        toast({
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: `${error.message}`,
+        })
       },
     })
   }

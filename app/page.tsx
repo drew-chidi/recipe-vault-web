@@ -1,22 +1,16 @@
 'use client'
 
-// To do:
-// 1. Remove commented components
-
 import { CustomPagination } from '@/components/pagination'
 import RecipeCard from '@/components/recipe-card'
 import { SkeletonCard } from '@/components/skeleton-card'
 import { Button } from '@/components/ui/button'
 import { useGetRecipes } from '@/hooks/useRecipes'
 import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export default function Home() {
   const router = useRouter()
-  const location = usePathname()
   const { data: recipes, error, isLoading } = useGetRecipes()
-
-  console.log({ recipes })
 
   return (
     <div className='min-h-screen'>
@@ -57,7 +51,6 @@ export default function Home() {
                 <div
                   key={recipe?._id}
                   className={`${index !== recipes?.data?.length - 1 ? 'border-b pb-6 border-border md:border-0' : ''} md:border-border md:border`}
-                  onClick={() => router.push(`/recipe/${recipe._id}`)}
                 >
                   <RecipeCard recipe={recipe} />
                 </div>
