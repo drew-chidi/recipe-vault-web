@@ -25,9 +25,9 @@ export default function RecipeDetails() {
   const router = useRouter()
   const id = params.id as string
 
-  const { data: recipe, error, status: isGettingRecipe } = useGetRecipeById(id)
-  const { mutate: deleteRecipe, status, isError, isSuccess, error: errorDeleting } = useDeleteRecipe()
-  const { mutate: updateRecipe, status: updateStatus, isError: isErrorUpdating, isSuccess: successUpdating, error: errorUpdating } = useUpdateRecipe()
+  const { data: recipe, status: isGettingRecipe } = useGetRecipeById(id)
+  const { mutate: deleteRecipe, status, isSuccess } = useDeleteRecipe()
+  const { mutate: updateRecipe, status: updateStatus } = useUpdateRecipe()
 
   const [initialValues, setInitialValues] = useState<FormValues>({
     title: '',

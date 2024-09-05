@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, Open_Sans } from 'next/font/google'
 import './globals.css'
 import Footer from '@/components/footer'
 import Navbar from '@/components/navigation/navbar'
@@ -8,6 +8,7 @@ import queryClient from '@/lib/queryClient'
 import { Toaster } from '@/components/ui/toaster'
 
 const inter = Inter({ subsets: ['latin'] })
+const openSans = Open_Sans({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Recipe Vault',
@@ -21,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
+      <body className={openSans.className}>
         <QueryClientProvider client={queryClient}>
           <div className='relative bg-primary text-primary-foreground z-50'>
             <Navbar />

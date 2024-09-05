@@ -28,7 +28,7 @@ export default function Home() {
           <div className='grid md:grid-cols-2 md:gap-6 xl:gap-10'>
             <div className='text-center md:text-left'>
               <h1 className='text-[2rem] tracking-tight font-bold my-10'>Recipes</h1>
-              <p className='text-foreground'>
+              <p className='text-foreground text-sm'>
                 Welcome to our Recipe Management Application, where culinary excellence meets convenience. Our dedicated team of chefs and food
                 experts meticulously tests each recipe to ensure flawless results in your kitchen. From simple weeknight dinners to elaborate feasts,
                 our collection spans a wide array of flavors and techniques. Explore thousands of recipes, carefully curated to inspire your cooking
@@ -36,7 +36,7 @@ export default function Home() {
               </p>
             </div>
             <div className='relative mt-10 w-full h-[180px] md:h-auto'>
-              <Image src='/images/recipe-banner.png' fill className='object-cover absolute left-0 right-0 w-full' alt='banner' />
+              <Image src='/images/family-cooking.jpg' fill className='object-cover absolute left-0 right-0 w-full rounded-xl' alt='banner' />
             </div>
           </div>
           <hr className='border-border border-2 mt-20' />
