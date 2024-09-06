@@ -4,7 +4,6 @@ import * as React from 'react'
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
   labelClass?: string
-  isRequired?: boolean
   id: string
   name: string
   value?: string
@@ -16,7 +15,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, labelClass, id, name, isRequired, onChange, error, value, touched, handleBlur, containerClass, ...props }, ref) => {
+  ({ className, type, label, labelClass, id, name, onChange, error, value, touched, handleBlur, containerClass, ...props }, ref) => {
     return (
       <div className={cn('mt-1', containerClass)}>
         {label && (

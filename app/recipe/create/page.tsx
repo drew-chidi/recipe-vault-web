@@ -2,17 +2,19 @@
 
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
+import { useFormik } from 'formik'
+import { PlusCircleIcon } from 'lucide-react'
+
 import Icon from '@/components/icon/icon'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { CreateRecipeSchema } from '@/utils/schema/create-recipe.schema'
-import { useFormik } from 'formik'
-import { PlusCircleIcon } from 'lucide-react'
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
-import 'react-quill/dist/quill.snow.css'
 import { useCreateRecipe } from '@/hooks/useRecipes'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
+
+import 'react-quill/dist/quill.snow.css'
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
 type FormValues = {
   title: string

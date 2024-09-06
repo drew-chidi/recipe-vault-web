@@ -25,7 +25,7 @@ export default function RecipeDetails() {
   const router = useRouter()
   const id = params.id as string
 
-  const { data: recipe, status: isGettingRecipe } = useGetRecipeById(id)
+  const { data: recipe, isLoading: isGettingRecipe } = useGetRecipeById(id)
   const { mutate: deleteRecipe, status, isSuccess } = useDeleteRecipe()
   const { mutate: updateRecipe, status: updateStatus } = useUpdateRecipe()
 
@@ -44,7 +44,7 @@ export default function RecipeDetails() {
 
   useEffect(() => {
     if (isSuccess) router.push('/')
-  }, [isSuccess])
+  }, [isSuccess, router])
 
   const handleUpdate = async (values: FormValues) => {
     const formData = new FormData()
@@ -94,7 +94,7 @@ export default function RecipeDetails() {
 
   return (
     <div className='min-h-screen max-w-[37.5rem] px-5 md:px-8 lg:px-10'>
-      {status === 'pending' && isGettingRecipe === 'pending' ? (
+      {status === 'pending' && isGettingRecipe ? (
         <div className='text-center m-auto'>
           <Loader2 className='animate-spin h-20 w-20' />
         </div>

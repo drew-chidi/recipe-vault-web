@@ -20,7 +20,10 @@ const RecipeCard = ({ recipe }: Props) => {
       <div className='md:p-3 sm:col-span-2'>
         <h2 className='text-base font-bold mb-1'>{recipe.title}</h2>
         <div className='text-sm line-clamp-2 md:line-clamp-4' dangerouslySetInnerHTML={{ __html: recipe.instructions }} />
-        <button onClick={() => router.push(`/recipe/${recipe._id}`)} className='  flex items-center gap-1 hover:underline mt-3 text-sm'>
+        <button
+          onClick={() => router.push(`/recipe/${recipe._id}`)}
+          className='animate-bounce hover:repeat-0 flex items-center gap-1 hover:underline mt-3 text-sm'
+        >
           Get recipe <ArrowBigRightDash className='h-4 w-4' />
         </button>
       </div>

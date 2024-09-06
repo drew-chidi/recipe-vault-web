@@ -8,6 +8,19 @@ import { MenuIcon, X } from 'lucide-react'
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false)
   const pathname = usePathname()
+  const [isAnimating, setIsAnimating] = useState(false)
+
+  const toggleMenu = () => {
+    if (showMenu) {
+      setIsAnimating(true)
+      setTimeout(() => {
+        setShowMenu(false)
+        setIsAnimating(false)
+      }, 250)
+    } else {
+      setShowMenu(true)
+    }
+  }
 
   useEffect(() => {
     setShowMenu(false)
@@ -27,14 +40,14 @@ const Navbar = () => {
             Create Recipe
           </Link>
         </div>
-        {!showMenu ? (
-          <MenuIcon className='sm:hidden' onClick={() => setShowMenu(true)} />
-        ) : (
-          <X className='sm:hidden' onClick={() => setShowMenu(false)} />
-        )}
+        {!showMenu ? <MenuIcon className='sm:hidden' onClick={() => setShowMenu(true)} /> : <X className='sm:hidden' onClick={toggleMenu} />}
         {/* Mobile Nav Menu */}
         {showMenu && (
-          <div className='sm:hidden w-full left-0 right-0 text-center absolute flex flex-col top-[3.75rem] bg-primary text-primary-foreground p-8 border-t border-border gap-7'>
+          <div
+            className={`sm:hidden w-full left-0 right-0 text-center absolute flex flex-col top-[3.75rem] bg-primary text-primary-foreground p-8 border-t border-border gap-7 duration-300 ease-in ${
+              isAnimating ? 'animate-out slide-out-to-top' : 'animate-in slide-in-from-top'
+            }`}
+          >
             <Link href='/'>Home</Link>
             <Link href='/recipe/create'>Create Recipe</Link>
           </div>
