@@ -33,10 +33,10 @@ const Navbar = () => {
           Recipe Vault
         </Link>
         <div className='hidden sm:flex gap-10'>
-          <Link href='/' className='font-medium'>
+          <Link href='/' className='font-medium hover:underline'>
             Home
           </Link>
-          <Link href='/recipe/create' className='font-medium'>
+          <Link href='/recipe/create' className='font-medium  hover:underline'>
             Create Recipe
           </Link>
         </div>
@@ -48,8 +48,12 @@ const Navbar = () => {
               isAnimating ? 'animate-out slide-out-to-top' : 'animate-in slide-in-from-top'
             }`}
           >
-            <Link href='/'>Home</Link>
-            <Link href='/recipe/create'>Create Recipe</Link>
+            <Link href='/' className='font-medium  hover:underline'>
+              Home
+            </Link>
+            <Link href='/recipe/create' className='font-medium  hover:underline'>
+              Create Recipe
+            </Link>
           </div>
         )}
       </div>

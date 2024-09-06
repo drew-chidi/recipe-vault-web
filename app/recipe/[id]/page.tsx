@@ -3,13 +3,12 @@
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
+import { Loader2 } from 'lucide-react'
 import ConfirmationModal from '@/components/modals/confirmation-modal'
 import EditRecipeModal from '@/components/modals/edit-recipe-modal'
 import { Button } from '@/components/ui/button'
 import { useDeleteRecipe, useGetRecipeById, useUpdateRecipe } from '@/hooks/useRecipes'
 import { useToast } from '@/hooks/use-toast'
-import { Loader2 } from 'lucide-react'
 
 type FormValues = {
   title: string
@@ -24,11 +23,9 @@ export default function RecipeDetails() {
   const params = useParams()
   const router = useRouter()
   const id = params.id as string
-
   const { data: recipe, isLoading: isGettingRecipe } = useGetRecipeById(id)
   const { mutate: deleteRecipe, status, isSuccess } = useDeleteRecipe()
   const { mutate: updateRecipe, status: updateStatus } = useUpdateRecipe()
-
   const [initialValues, setInitialValues] = useState<FormValues>({
     title: '',
     ingredients: [''],
@@ -37,6 +34,8 @@ export default function RecipeDetails() {
   })
 
   const { toast } = useToast()
+
+  console.log({ recipe })
 
   const handleDelete = () => {
     deleteRecipe(id)
@@ -101,24 +100,35 @@ export default function RecipeDetails() {
       ) : (
         <>
           <div className='container mx-auto py-6'>
-            <h1 className='text-[2rem] tracking-tight font-bold mb-10'>{recipe?.data?.title}</h1>
-            <Image
-              src={recipe?.data?.image ?? ''}
-              alt={recipe?.data?.title ?? 'food'}
-              height={260}
-              width={260}
-              className='w-4/5 lg:3/5 rounded-lg mb-16'
-            />
-            <div className='mb-16'>
-              <h2 className='text-2xl font-semibold mb-2'>Ingredients</h2>
+            <h1 className='text-[1.75rem] md:text-[2rem] tracking-tight font-bold mb-10'>{recipe?.data?.title}</h1>
+            {recipe?.data?.image && (
+              <Image
+                src={recipe?.data?.image ?? ''}
+                alt={recipe?.data?.title ?? 'food'}
+                height={260}
+                width={260}
+                className='w-4/5 lg:3/5 rounded-lg mb-10'
+              />
+            )}
+            <div className='mb-10'>
+              <h2 className='text-xl md:text-2xl font-semibold mb-2'>Ingredients</h2>
               <ul className='list-disc pl-6 mb-4'>
-                {recipe?.data?.ingredients?.map((ingredient, index) => (
-                  <li key={index}>{ingredient}</li>
-                ))}
+                {recipe?.data?.ingredients?.length ? (
+                  recipe?.data?.ingredients?.map((ingredient, index) => <li key={index}>{ingredient}</li>)
+                ) : (
+                  <p className='text-xs ml-[-1.5rem]'>
+                    Ingredients not found. <br />
+                    Please verify internet connection
+                  </p>
+                )}
               </ul>
             </div>
-            <h2 className='text-2xl font-semibold mb-2'>Instructions</h2>
-            <div className='text-sm' dangerouslySetInnerHTML={{ __html: recipe?.data?.instructions ?? <p></p> }} />
+            <h2 className='text-xl md:text-2xl font-semibold mb-2'>Instructions</h2>
+            {recipe?.data?.instructions ? (
+              <div className='text-sm' dangerouslySetInnerHTML={{ __html: recipe?.data?.instructions ?? <p></p> }} />
+            ) : (
+              <p className='text-xs'>Please verify internet connection</p>
+            )}
             <div className='flex gap-3 items-center justify-end mt-20 mb-40'>
               <Button variant='outline' className='w-20 inline-flex items-center gap-2' onClick={() => setShowUpdateForm(true)}>
                 Edit
