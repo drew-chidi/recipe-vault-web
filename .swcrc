@@ -1,0 +1,17 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true,
+      "decorators": true
+    },
+    "transform": {
+      "react": {
+        "runtime": "automatic" // For React 17+
+      }
+    }
+  },
+  "module": {
+    "type": "es6"
+  }
+}

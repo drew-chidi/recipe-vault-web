@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -29,9 +29,9 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
-    "@babel/preset-typescript": "^7.24.7",
+    "@swc/core": "^1.7.23",
+    "@swc/jest": "^0.2.36",
     "@tanstack/eslint-plugin-query": "^5.53.0",
-    "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
     "@types/jest": "^29.5.12",

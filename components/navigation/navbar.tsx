@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { MenuIcon, X } from 'lucide-react'
+import Icon from '../icon/icon'
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false)
@@ -29,8 +30,8 @@ const Navbar = () => {
   return (
     <nav className='bg-primary text-[#333] p-4 fixed top-0 right-0 left-0 md:px-8 lg:px-10'>
       <div className='container mx-auto flex justify-between items-center'>
-        <Link href='/' className=' text-lg font-bold'>
-          Recipe Vault
+        <Link href='/' className=' text-lg font-bold flex items-center gap-3'>
+          Recipe Vault <Icon name='salt-and-pepper' width={16} height={16} />
         </Link>
         <div className='hidden sm:flex gap-10'>
           <Link href='/' className='font-medium hover:underline'>

@@ -35,8 +35,6 @@ export default function RecipeDetails() {
 
   const { toast } = useToast()
 
-  console.log({ recipe })
-
   const handleDelete = () => {
     deleteRecipe(id)
   }
@@ -98,7 +96,7 @@ export default function RecipeDetails() {
           <Loader2 className='animate-spin h-20 w-20' />
         </div>
       ) : (
-        <>
+        <div>
           <div className='container mx-auto py-6'>
             <h1 className='text-[1.75rem] md:text-[2rem] tracking-tight font-bold mb-10'>{recipe?.data?.title}</h1>
             {recipe?.data?.image && (
@@ -125,7 +123,7 @@ export default function RecipeDetails() {
             </div>
             <h2 className='text-xl md:text-2xl font-semibold mb-2'>Instructions</h2>
             {recipe?.data?.instructions ? (
-              <div className='text-sm' dangerouslySetInnerHTML={{ __html: recipe?.data?.instructions ?? <p></p> }} />
+              <div className='text-sm' dangerouslySetInnerHTML={{ __html: recipe?.data?.instructions ?? '' }} />
             ) : (
               <p className='text-xs'>Please verify internet connection</p>
             )}
@@ -141,21 +139,17 @@ export default function RecipeDetails() {
           <ConfirmationModal
             loading={status === 'pending'}
             visible={showConfirmation}
-            onClose={() => {
-              setShowConfirmation(false)
-            }}
+            onClose={() => setShowConfirmation(false)}
             onConfirm={handleDelete}
           />
           <EditRecipeModal
             initialValues={initialValues}
             loading={updateStatus === 'pending'}
             visible={showUpdateForm}
-            onClose={() => {
-              setShowUpdateForm(false)
-            }}
+            onClose={() => setShowUpdateForm(false)}
             onConfirm={handleUpdate}
           />
-        </>
+        </div>
       )}
     </div>
   )

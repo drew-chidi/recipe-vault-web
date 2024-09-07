@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-
 import { CustomPagination } from '@/components/pagination'
 import RecipeCard from '@/components/recipe-card'
 import { SkeletonCard } from '@/components/skeleton-card'
@@ -17,14 +16,14 @@ export default function Home() {
   const { data: recipes, error, isLoading } = useGetRecipes(currentPage)
 
   const handlePageChange = (page: number) => {
-    console.log({ page })
     setCurrentPage(page)
   }
+
   return (
     <div className='min-h-screen'>
       <div className=''>
         <HeroSection />
-        <div className='container mx-auto py-6 px-5 md:px-8 lg:px-10'>
+        <div className='container max-w-[80rem] mx-auto py-6 px-5 md:px-8 lg:px-10'>
           <div className='grid md:grid-cols-2 md:gap-6 xl:gap-10'>
             <div className='text-center md:text-left'>
               <h1 className='text-[2rem] tracking-tight font-bold my-10'>Recipes</h1>
@@ -36,7 +35,13 @@ export default function Home() {
               </p>
             </div>
             <div className='relative mt-10 w-full h-[180px] md:h-auto animate-in slide-in-from-right duration-700 ease-in'>
-              <Image src='/images/family-cooking.jpg' fill className='object-cover absolute left-0 right-0 w-full rounded-xl' alt='banner' />
+              <Image
+                src='/images/family-cooking.jpg'
+                fill
+                className='object-cover absolute left-0 right-0 w-full rounded-xl'
+                alt='banner'
+                sizes='(max-width: 36.25rem)'
+              />
             </div>
           </div>
           <hr className='border-border border-2 mt-20' />
@@ -45,10 +50,10 @@ export default function Home() {
             <div className='max-w-[75rem] mx-auto'>
               {isLoading ? (
                 <SkeletonCard />
-              ) : !recipes ? (
+              ) : !recipes && error ? (
                 <div className='text-center'>
-                  <p className='text-sm font-semibold'>No internet connection.</p>
-                  <p className='mt-2 text-xs'>Please check your internet and try again.</p>
+                  <p className='text-sm font-semibold'>{`${error?.message}`}</p>
+                  <p className='mt-2 text-xs'>Please confirm you are connnected to the internet and try again.</p>
                 </div>
               ) : recipes?.data?.length === 0 ? (
                 <div className='text-center'>
