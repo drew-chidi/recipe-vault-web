@@ -10,7 +10,7 @@ const socials = [{ name: 'facebook-logo' }, { name: 'instagram-logo' }, { name: 
 const Footer = (props: Props) => {
   return (
     <div>
-      <div className='py-10  px-5 md:px-8 lg:px-10 flex flex-col gap-8 md:flex-row md:justify-between max-w-[56.25rem] mx-auto text-[#333]'>
+      <div className='py-10 px-5 md:px-8 lg:px-10 flex flex-col gap-8 md:flex-row md:justify-between max-w-[56.25rem] mx-auto text-[#333]'>
         <div className='flex flex-col gap-6 items-center md:items-start'>
           <p className='text-lg font-semibold items-center gap-3 flex'>
             <Icon name='salt-and-pepper' width={20} height={20} /> Recipe Vault

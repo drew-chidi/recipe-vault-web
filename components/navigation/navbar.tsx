@@ -45,7 +45,7 @@ const Navbar = () => {
         {/* Mobile Nav Menu */}
         {showMenu && (
           <div
-            className={`sm:hidden w-full left-0 right-0 text-center absolute flex flex-col top-[3.75rem] bg-primary text-primary-foreground p-8 border-t border-border gap-7 duration-300 ease-in ${
+            className={`sm:hidden w-full left-0 right-0 text-center absolute flex flex-col top-[3.75rem] bg-primary p-8 border-t border-border gap-7 duration-300 ease-in ${
               isAnimating ? 'animate-out slide-out-to-top' : 'animate-in slide-in-from-top'
             }`}
           >

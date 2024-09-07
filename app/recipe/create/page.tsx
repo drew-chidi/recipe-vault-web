@@ -4,7 +4,6 @@ import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useFormik } from 'formik'
 import { PlusCircleIcon } from 'lucide-react'
-
 import Icon from '@/components/icon/icon'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -88,6 +87,10 @@ export default function CreateRecipe() {
         formik.resetForm()
         setIngredients([''])
         formik.setFieldValue('image', null)
+        const imageInput = document.getElementById('image') as HTMLInputElement | null
+        if (imageInput) {
+          imageInput.value = ''
+        }
       },
       onError: (error) => {
         toast({
@@ -97,6 +100,18 @@ export default function CreateRecipe() {
         })
       },
     })
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      addIngredient()
+      const nextIndex = index + 1
+      const nextInput = document.getElementById(`ingredients.${nextIndex}`)
+      if (nextInput) {
+        ;(nextInput as HTMLInputElement).focus()
+      }
+    }
   }
 
   const formik = useFormik<FormValues>({
@@ -111,7 +126,7 @@ export default function CreateRecipe() {
   })
 
   return (
-    <div className=' min-h-screen max-w-xl mx-auto px-5 md:px-8 lg:px-10 pt-20'>
+    <div className=' min-h-screen max-w-xl mx-auto px-5 md:px-8 lg:px-10 py-12'>
       <div className='container mx-auto py-6'>
         <h1 className='text-[2rem] tracking-tight font-bold mb-6'>Create New Recipe</h1>
         <form onSubmit={formik.handleSubmit} className='flex flex-col gap-6'>
@@ -140,6 +155,7 @@ export default function CreateRecipe() {
                     id={`ingredients.${index}`}
                     value={ingredient}
                     onChange={(e) => handleIngredientChange(index, e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e, index)}
                     onBlur={formik.handleBlur}
                     error={formik.errors.ingredients?.[index]}
                     touched={Array.isArray(formik.touched.ingredients) ? formik.touched.ingredients[index] : false}
@@ -152,8 +168,8 @@ export default function CreateRecipe() {
                 </button>
               </div>
             ))}
-            <button type='button' onClick={addIngredient} className='flex items-center gap-2 mt-2 text-primary text.sm'>
-              <PlusCircleIcon width={16} height={16} />
+            <button type='button' onClick={addIngredient} className='flex items-center gap-2 mt-2 text-foreground text-sm hover:underline'>
+              <PlusCircleIcon width={14} height={14} />
               Add ingredients
             </button>
           </div>
@@ -167,7 +183,7 @@ export default function CreateRecipe() {
                 value={formik?.values?.instructions}
                 onChange={(value) => formik.setFieldValue('instructions', value)}
                 onBlur={() => formik?.setFieldTouched('instructions', true)}
-                className='my-2 h-full bg-white text-foreground'
+                className='mt-2 h-full bg-white text-[#333]'
               />
               <span className={cn('text-xs text-red-500 hidden', formik?.errors?.instructions && 'block')}>{formik?.errors?.instructions}</span>
             </div>
