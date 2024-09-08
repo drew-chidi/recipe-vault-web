@@ -49,11 +49,6 @@ export default function CreateRecipe() {
     e.preventDefault()
     const file = e.target.files?.[0]
     if (file) {
-      if (file.size > 1024 * 1024) {
-        // 1MB in bytes
-        formik.setFieldError('image', 'image size should be at most 1MB')
-        return
-      }
       formik.setFieldValue('image', file)
     }
   }
