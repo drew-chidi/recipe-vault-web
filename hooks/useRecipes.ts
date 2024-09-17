@@ -11,7 +11,7 @@ export const useGetRecipes = (page?: number) => {
 }
 
 export const useGetRecipeById = (id: string) => {
-  return useQuery<ApiResponse<RecipeType>, Error>({
+  return useQuery<RecipeType>({
     queryKey: ['recipe', id],
     queryFn: () => fetchRecipeById(id),
     enabled: !!id,
