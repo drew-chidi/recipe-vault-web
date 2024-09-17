@@ -81,10 +81,10 @@ export default function RecipeDetails() {
   useEffect(() => {
     if (recipe) {
       setInitialValues({
-        title: recipe.data.title || '',
-        ingredients: recipe.data.ingredients || [''],
-        instructions: recipe.data.instructions || '',
-        image: recipe.data.image || null,
+        title: recipe?.title || '',
+        ingredients: recipe?.ingredients || [''],
+        instructions: recipe?.instructions || '',
+        image: recipe?.image || null,
       })
     }
   }, [recipe])
@@ -98,21 +98,15 @@ export default function RecipeDetails() {
       ) : (
         <div>
           <div className='container mx-auto py-6'>
-            <h1 className='text-[1.75rem] md:text-[2rem] tracking-tight font-bold mb-10'>{recipe?.data?.title}</h1>
-            {recipe?.data?.image && (
-              <Image
-                src={recipe?.data?.image ?? ''}
-                alt={recipe?.data?.title ?? 'food'}
-                height={260}
-                width={260}
-                className='w-4/5 lg:3/5 rounded-lg mb-10'
-              />
+            <h1 className='text-[1.75rem] md:text-[2rem] tracking-tight font-bold mb-10'>{recipe?.title}</h1>
+            {recipe?.image && (
+              <Image src={recipe?.image ?? ''} alt={recipe?.title ?? 'food'} height={260} width={260} className='w-4/5 lg:3/5 rounded-lg mb-10' />
             )}
             <div className='mb-10'>
               <h2 className='text-xl md:text-2xl font-semibold mb-2'>Ingredients</h2>
               <ul className='list-disc pl-6 mb-4'>
-                {recipe?.data?.ingredients?.length ? (
-                  recipe?.data?.ingredients?.map((ingredient, index) => <li key={index}>{ingredient}</li>)
+                {recipe?.ingredients?.length ? (
+                  recipe?.ingredients?.map((ingredient, index) => <li key={index}>{ingredient}</li>)
                 ) : (
                   <p className='text-xs ml-[-1.5rem]'>
                     Ingredients not found. <br />
@@ -122,8 +116,8 @@ export default function RecipeDetails() {
               </ul>
             </div>
             <h2 className='text-xl md:text-2xl font-semibold mb-2'>Instructions</h2>
-            {recipe?.data?.instructions ? (
-              <div className='text-sm' dangerouslySetInnerHTML={{ __html: recipe?.data?.instructions ?? '' }} />
+            {recipe?.instructions ? (
+              <div className='text-sm' dangerouslySetInnerHTML={{ __html: recipe?.instructions ?? '' }} />
             ) : (
               <p className='text-xs'>Please verify internet connection</p>
             )}
